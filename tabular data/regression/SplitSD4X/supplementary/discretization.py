@@ -416,5 +416,40 @@ def SplitBasedSelectionForm_width (data, target, k, model,list_neigh,split_point
 			
 	return(l_s,patterns)
 
+def sampling_sb(dataset, subgroup, list_neigh, model) :
+	
+	data = dataset[subgroup,:]
+	subgroup = np.asarray(subgroup)
+	for i in range(0,subgroup.size) :
+		data = np.concatenate((data, list_neigh[subgroup[i]]), axis=0)
+	
+	
+	#print(data)
+	target = model.predict(data)
+	return (data,target)
+
+def calc_loss (data,target) :
+	
+	regression = LinearRegression()
+	model = regression.fit(data, target)
+	new_target = model.predict(data)
+	
+	loss = sum(np.square(new_target - target))
+	
+	return (loss)
+
+
+def loss_set(Subgroups, loss_subgroups):
+	
+	loss = 0
+	if bool (Subgroups) == False  : #empty
+		return 0
+	
+	else : 
+		for s in Subgroups :
+			loss = loss + loss_subgroups[s]
+
+		return loss
+
 
 
