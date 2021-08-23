@@ -1,1 +1,1 @@
-# SPLITSD4X
+# split-sd4x-internship
